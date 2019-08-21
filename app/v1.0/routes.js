@@ -3,11 +3,11 @@ const { getSongs, getSong, deleteSong, createSong, updateSong } = require ('./co
 
 
 
-router.get('/test', getSongs);
-router.get('/test:_id', getSong);
-router.post('/test', createSong);
-router.patch('/test:_id', updateSong);
-router.delete('/test:_id', deleteSong);
+router.get('/songs', getSongs);
+router.get('/songs/:_id', getSong);
+router.post('/songs', createSong);
+router.patch('/songs/:_id', updateSong);
+router.delete('/songs/:_id', deleteSong);
 
 
 module.exports = router;
