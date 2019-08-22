@@ -1,4 +1,4 @@
-const SongModel = require('../models/songModel');
+const SongModel = require('../models/songsModel');
 const _UPDATE_DEFAULT_CONFIG = {
     new: true,
     runValidators: true
@@ -14,36 +14,43 @@ module.exports = {
 
 function getSongs(req, res) {
     SongModel.find()
-        .then(responde => res.json(responde))
-        .catch((err) => res.handdleError(err, res))
+        .then(responde => {
+            const songs = {};
+            songs.data = responde;
+            res.json(songs);
+        })
+        .catch((err) => handdleError(err, res))
 };
 
 function getSong(req, res) {
     SongModel.findById(req.params._id)
-        .then(response => res.json(response))
+        .then(responde => {
+            const songs = {};
+            songs.data = responde;
+            res.json(songs);
+        })
         .catch((err) => handdleError(err, res))
 }
 
 function createSong(req, res) {
     SongModel.create(req.body)
         .then(responde => {
-            responde.createdAt = Date.now();
             res.json(responde)
         })
-        .catch((err) => res.handdleError(err, res))
+        .catch((err) => handdleError(err, res))
 };
 
 function updateSong(req, res) {
     SongModel.findByIdAndUpdate(req.params._id, req.body, _UPDATE_DEFAULT_CONFIG)
         .then(response => res.json(response))
-        .catch((err) => res.handdleError(err, res))
+        .catch((err) => handdleError(err, res))
 };
 
 function deleteSong(req, res) {
     SongModel.findById(req.params._id)
         .deleteOne()
         .then(response => res.json(response))
-        .catch((err) => res.handdleError(err, res))
+        .catch((err) => handdleError(err, res))
 }
 
 function handdleError(err, res){

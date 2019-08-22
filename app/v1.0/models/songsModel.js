@@ -13,7 +13,10 @@ var SongSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    createdAt: Number
+    createdAt: {
+        type: Number,
+        default: Date.now()
+    }
 });
 
 module.exports = mongoose.model('song', SongSchema);
