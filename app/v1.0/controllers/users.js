@@ -53,11 +53,38 @@ function logIn(req, res) {
     }
 }
 
+function googleSignUp(req, res){
+    
+    
+    UserModel.findOne({
+        googleId: req.googleId
+    })
+    .select("_id password")
+    .exec((err, userResult) => {
+        if (err || !userResult) {
+            return res.status(401).send({
+                error: "LoginError1"
+            });
+        }
+        let dataToken = authJWT.createToken(userResult);
+                return res.status(200).send({
+                    acces_token: dataToken[0],
+                    refresh_token: authJWT.createRefreshToken(userResult),
+                    expires_in: dataToken[1],
+                    role: userResult.role
+                });
+
+
+    })
+    } 
+
+
 function handdleError(err, res){
     return res.status(400).json(err);
 };
 
 module.exports = {
     singUp,
-    logIn
+    logIn,
+    googleSignUp
 }

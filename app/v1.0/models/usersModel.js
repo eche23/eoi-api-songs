@@ -29,6 +29,9 @@ var UserSchema = mongoose.Schema({
             "ROLE_COMPANY"
         ],
         required: true
+    },
+    googleId: {
+        type: String,
     }
 });
 
@@ -55,6 +58,8 @@ UserSchema.methods.comparePassword = function (candidatePassword, hashPassword, 
         cd(null, isMatch);
     });
 };
+
+
 
 module.exports = mongoose.model('user', UserSchema);
 
